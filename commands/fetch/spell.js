@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { spellEmbed } = require('../../embeds/spellEmbed.js');
+const { genericEmbed } = require('../../embeds/genericEmbed.js');
 const { parse } = require('../../utility/parser.js');
 
 const sites = require('../../sites.json');
@@ -38,10 +38,10 @@ module.exports = {
 
 		const tempcontent = await fetch(url)
 			.then((res) => res.text())
-			.then(text => parse(text, '.main-content'));
+			.then(text => parse(text));
 
 		await interaction.reply({
-			embeds: [ await spellEmbed(`${option} - ${spellName}`, tempcontent) ],
+			embeds: [ await genericEmbed(`${option} - ${spellName}`, tempcontent) ],
 		});
 	},
 };
