@@ -137,3 +137,10 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Dotenv environment files
+.dotenv
+
+# Miscellaneous
+todo.txt
+favicon.png
