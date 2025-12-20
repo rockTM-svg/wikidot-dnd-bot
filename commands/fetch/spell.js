@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { spellEmbed } = require('../../utility/spellEmbed.js');
+const { spellEmbed } = require('../../embeds/spellEmbed.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
