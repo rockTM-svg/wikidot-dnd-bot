@@ -1,5 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { spellEmbed } = require('../../embeds/spellEmbed.js');
+const { parse } = require('../../utility/parser.js');
+
+const sites = require('../../sites.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -23,8 +26,22 @@ module.exports = {
 		const option = interaction.options.getString('system');
 		const spellName = interaction.options.getString('name');
 
+		let url = '';
+		switch (option) {
+		case 'dnd5e':
+			url = `${sites.dnd5e}/spell:${spellName}`;
+			break;
+		case 'dnd2024':
+			url = `${sites.dnd2024}/spell:${spellName}`;
+			break;
+		};
+
+		const tempcontent = await fetch(url)
+			.then((res) => res.text())
+			.then(text => parse(text, '.main-content'));
+
 		await interaction.reply({
-			embeds: [ await spellEmbed(`${option} - ${spellName}`) ],
+			embeds: [ await spellEmbed(`${option} - ${spellName}`, tempcontent) ],
 		});
 	},
 };
