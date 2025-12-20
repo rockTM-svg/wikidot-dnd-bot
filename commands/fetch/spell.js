@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { embed } = require('../../utility/spellEmbed.js');
+const { spellEmbed } = require('../../utility/spellEmbed.js');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
 		const spellName = interaction.options.getString('name');
 
 		await interaction.reply({
-			embeds: [ await embed(`${option} - ${spellName}`) ],
+			embeds: [ await spellEmbed(`${option} - ${spellName}`) ],
 		});
 	},
 };
