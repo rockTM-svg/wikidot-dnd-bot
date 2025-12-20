@@ -1,6 +1,5 @@
 {
   "name": "wikidot-dnd-discord-bot",
-  "type": "module",
   "version": "0.0.1",
   "description": "Discord bot for getting information from DnD Wikidot about spells/races/etc...",
   "main": "main.js",
