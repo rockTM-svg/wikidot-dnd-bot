@@ -4,6 +4,8 @@ const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require(
 
 require('dotenv').config();
 
+// -------------------------
+
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once(Events.ClientReady, (readyClient) => {
@@ -16,9 +18,7 @@ client.commands = new Collection();
 
 // ------------------------
 
-const folderName = 'src/commands';
-const foldersPath = path.join(__dirname, folderName);
-
+const foldersPath = path.join(__dirname, '/commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
