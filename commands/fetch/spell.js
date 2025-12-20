@@ -12,8 +12,18 @@ module.exports = {
 				.addChoices(
 					{ name: 'DND 5e', value: 'dnd5e' },
 					{ name: 'DND 5e (2024)', value: 'dnd5e2024' },
-				)),
+				))
+		.addStringOption((option) =>
+			option
+				.setName('name')
+				.setDescription('Spell name')
+				.setRequired(true)),
 	execute: async (interaction) => {
-		await interaction.reply(`System: ${interaction.options.getString('system')}`);
+		const option = interaction.options.getString('system');
+		const spellName = interaction.options.getString('name');
+
+		await interaction.reply({
+			content: `Spell name: ${spellName}, system: ${option}`,
+		});
 	},
 };
