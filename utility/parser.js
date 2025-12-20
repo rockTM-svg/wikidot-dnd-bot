@@ -2,10 +2,22 @@ const cheerio = require('cheerio');
 
 // works but parsing needs to be more specific
 module.exports = {
-	parse: async (data, selector) => {
-		const $ = cheerio.load(data);
+	parse: async (textHTML) => {
+		const $ = cheerio.load(textHTML);
 
-		if (selector) return await $(selector).text();
-		return await $('body').text();
+		/* for every child element in parent element determined by selector, append object to array. */
+		const result = $.extract({
+			links: {
+				selector: '.main-content',
+				value: {
+					title: '.page-title > span',
+					content: [ 'p, li' ],
+					tableHeader: [ 'tr > th' ],
+					tableContent: [ 'tr > td' ],
+				},
+			},
+		});
+
+		return result;
 	},
 };
