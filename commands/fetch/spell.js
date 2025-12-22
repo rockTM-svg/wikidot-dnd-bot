@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { genericEmbed } = require('../../embeds/genericEmbed.js');
-const { parse } = require('../../utility/parser.js');
+const { parseHTML } = require('../../utility/parseHTML.js');
 
 const sites = require('../../sites.json');
 
@@ -36,12 +36,16 @@ module.exports = {
 			break;
 		};
 
+		console.log(url);
+
 		const tempcontent = await fetch(url)
 			.then((res) => res.text())
-			.then(text => parse(text));
+			.then(text => parseHTML(text));
+
+		console.log(tempcontent);
 
 		await interaction.reply({
-			embeds: [ await genericEmbed(`${option} - ${spellName}`, tempcontent) ],
+			embeds: [ await genericEmbed(`${option} - ${spellName}`) ],
 		});
 	},
 };
