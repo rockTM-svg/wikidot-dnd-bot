@@ -10,14 +10,14 @@ module.exports = {
 			links: [{
 				selector: '#page-content > *',
 				value: (el) => {
-					const text = $(el).text();
+					const text = $(el).text().trim();
 					const tag = $(el).prop('tagName');
 
-					if (['P', 'LI', 'A'].includes(tag)) {
+					if (['P', 'A', 'PRE'].includes(tag)) {
 						result.push({ tag: 'text', content: text });
 					}
-					else if (tag === 'TABLE') {
-						result.push({ tag: 'table-text', content: `--- ${$(el).text().replace(/\n/, '')} ---` });
+					else if (['UL', 'TABLE'].includes(tag)) {
+						result.push({ tag: 'group-text', content: `\`\`\`${text}\`\`\`` });
 					};
 				},
 			}],
