@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const { genericEmbed } = require('../../embeds/genericEmbed.js');
+// const { genericEmbed } = require('../../embeds/genericEmbed.js');
 const { parseHTML } = require('../../utility/parseHTML.js');
 
 const sites = require('../../sites.json');
@@ -23,6 +23,8 @@ module.exports = {
 				.setDescription('Spell name')
 				.setRequired(true)),
 	execute: async (interaction) => {
+		await interaction.deferReply();
+
 		const option = interaction.options.getString('system');
 		const spellName = interaction.options.getString('name');
 
@@ -35,17 +37,22 @@ module.exports = {
 			url = `${sites.dnd2024}/spell:${spellName}`;
 			break;
 		};
-
 		console.log(url);
 
+		// todo: find how to use embed
 		const tempcontent = await fetch(url)
 			.then((res) => res.text())
 			.then(text => parseHTML(text));
-
 		console.log(tempcontent);
 
-		await interaction.reply({
-			embeds: [ await genericEmbed(`${option} - ${spellName}`) ],
+		let content = '';
+		tempcontent.forEach((value) => {
+			content += value.content + '\n\n';
 		});
+
+		await interaction.editReply(
+			`\n**${option} - ${spellName}**\n\n` +
+			`${content}`,
+		);
 	},
 };
