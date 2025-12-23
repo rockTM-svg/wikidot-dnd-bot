@@ -1,12 +1,14 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
-	/* todo: add build for content (hopefully) */
+	// unused for now
 	genericEmbed: async (title) => {
-		return new EmbedBuilder()
+		return new EmbedBuilder().setTitle(title);
+		/* const builder = new EmbedBuilder()
 			.setTitle(title)
-			.addFields(
-				{ name: 'test', value: 'test' },
-			);
+			.addFields([
+
+			]);
+		*/
 	},
 };
