@@ -1,8 +1,13 @@
-const path = require('node:path');
-const fs = require('node:fs');
-const { Client, Collection, Events, GatewayIntentBits, MessageFlags } = require('discord.js');
+import path from 'node:path';
+import fs from 'node:fs';
+import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 
-require('dotenv').config();
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 // -------------------------
 
@@ -27,7 +32,7 @@ for (const folder of commandFolders) {
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
+		const command = await import(filePath);
 
 		if ('data' in command && 'execute' in command) {
 			client.commands.set(command.data.name, command);
