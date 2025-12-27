@@ -1,14 +1,13 @@
-const { EmbedBuilder } = require('discord.js');
+import { EmbedBuilder } from 'discord.js';
 
-module.exports = {
-	// unused for now
-	genericEmbed: async (title) => {
-		return new EmbedBuilder().setTitle(title);
-		/* const builder = new EmbedBuilder()
-			.setTitle(title)
-			.addFields([
+async function genericEmbed(title) {
+	return new EmbedBuilder().setTitle(title);
+	/* const builder = new EmbedBuilder()
+		.setTitle(title)
+		.addFields([
 
-			]);
-		*/
-	},
+		]);
+	*/
 };
+
+export default genericEmbed;
