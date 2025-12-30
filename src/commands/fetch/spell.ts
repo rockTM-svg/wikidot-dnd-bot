@@ -1,8 +1,11 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
 import parseHTML from '../../utility/parseHTML.js';
+import ParsedHTMLText from '../../interface/parsedHTMLText.js';
 
-import sites from '../../sites.json' with { type: 'json' };
+import sites from '../../../sites.json' with {'type': 'json'};
+
+// ----------------------------------
 
 export const data = new SlashCommandBuilder()
 	.setName('spell')
@@ -22,7 +25,7 @@ export const data = new SlashCommandBuilder()
 			.setDescription('Spell name')
 			.setRequired(true));
 
-export const execute = async (interaction) => {
+export const execute = async (interaction: ChatInputCommandInteraction) => {
 	await interaction.deferReply();
 
 	const option = interaction.options.getString('system');
@@ -38,13 +41,13 @@ export const execute = async (interaction) => {
 		break;
 	};
 
-	// todo: find how to use embed
+	// todo: check against 404s
 	const tempcontent = await fetch(url)
 		.then((res) => res.text())
 		.then(text => parseHTML(text));
 
 	let content = '';
-	tempcontent.forEach((value) => {
+	tempcontent.forEach((value: ParsedHTMLText) => {
 		content += value.content + '\n\n';
 	});
 
