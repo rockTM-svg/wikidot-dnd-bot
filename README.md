@@ -7,11 +7,12 @@ Libraries used:
 - ESLint (linting)
 
 TODO:
-- Refactor code to Typescript
+- Refactor code to Typescript (Done)
+- Add unit testing with Jest
 - Add autocomplete for spell options
 
 Long term plan:
 - Add class, races, background and feats command
 - Add caching for websites
-- Add other tabletop systems
+- Add support to other tabletop systems
 - Rebrand bot
