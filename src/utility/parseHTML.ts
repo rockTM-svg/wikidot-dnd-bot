@@ -8,7 +8,6 @@ async function parseHTML(textHTML: string) {
 	const $ = cheerio.load(textHTML);
 	const result: ParsedHTMLText[] = [];
 
-	// uses array of objects to preserve the order of content (DESPERATELY needs typescript for type checking)
 	$.extract({
 		links: [{
 			selector: '#page-content > *',
