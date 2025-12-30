@@ -1,8 +1,12 @@
 import * as cheerio from 'cheerio';
 
-async function parseHTML(textHTML) {
+import ParsedHTMLText from '../interface/parsedHTMLText.js';
+
+// --------------------------
+
+async function parseHTML(textHTML: string) {
 	const $ = cheerio.load(textHTML);
-	const result = [];
+	const result: ParsedHTMLText[] = [];
 
 	// uses array of objects to preserve the order of content (DESPERATELY needs typescript for type checking)
 	$.extract({
@@ -10,7 +14,7 @@ async function parseHTML(textHTML) {
 			selector: '#page-content > *',
 			value: (el) => {
 				const text = $(el).text().trim();
-				const tag = $(el).prop('tagName');
+				const tag = $(el).prop('tagName')!;
 
 				if (['P', 'A', 'PRE'].includes(tag)) {
 					result.push({ tag: 'text', content: text });

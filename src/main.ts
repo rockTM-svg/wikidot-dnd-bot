@@ -1,6 +1,8 @@
 import path from 'node:path';
 import fs from 'node:fs';
-import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
+import { Client, Collection, Events, GatewayIntentBits, Interaction, MessageFlags } from 'discord.js';
+
+import DiscordChatCommand from './interface/discordCommand.js';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -19,7 +21,7 @@ client.once(Events.ClientReady, (readyClient) => {
 
 client.login(process.env.BOT_TOKEN);
 
-client.commands = new Collection();
+client.commands = new Collection<string, DiscordChatCommand>();
 
 // ------------------------
 
@@ -28,16 +30,15 @@ const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+	const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
-		const command = await import(filePath);
-
-		if ('data' in command && 'execute' in command) {
+		try {
+			const command: DiscordChatCommand = await import(`${filePath}`);
 			client.commands.set(command.data.name, command);
 		}
-		else {
+		catch {
 			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
 		};
 	};
@@ -45,7 +46,7 @@ for (const folder of commandFolders) {
 
 // -------------------------
 
-client.on(Events.InteractionCreate, async (interaction) => {
+client.on(Events.InteractionCreate, async (interaction: Interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 	const command = interaction.client.commands.get(interaction.commandName);
 
