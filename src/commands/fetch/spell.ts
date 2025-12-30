@@ -52,6 +52,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	});
 
 	await interaction.editReply(
+		'-------\n' +
 		`\n**${option} - ${spellName}**\n\n` +
 		`${content}`,
 	);
