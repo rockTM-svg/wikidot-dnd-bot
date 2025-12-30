@@ -1,7 +1,13 @@
 import js from '@eslint/js';
+import tslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
-export default [
+export default defineConfig(
+	{
+		files: [['src/*', '**/.ts']],
+	},
 	js.configs.recommended,
+	tslint.configs.recommended,
 	{
 		languageOptions: {
 			ecmaVersion: 'latest',
@@ -50,4 +56,4 @@ export default [
 			yoda: 'error',
 		},
 	},
-];
+);
