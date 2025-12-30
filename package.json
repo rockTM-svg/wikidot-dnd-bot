@@ -9,20 +9,20 @@
     "deploy-commands": "tsx ./src/deploy-commands.ts",
     "dev": "tsx watch ./src/main.ts"
   },
-  "author": "",
+  "author": "silicate-harvester",
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "@eslint/js": "^9.39.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
     "@types/node": "^25.0.3",
     "dotenv": "^17.2.3",
     "eslint": "^9.39.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "@eslint/js": "^9.39.2",
+    "typescript-eslint": "^8.51.0"
   },
   "dependencies": {
     "cheerio": "^1.1.2",
-    "discord.js": "^14.25.1",
-    "typescript-eslint": "^8.50.1"
+    "discord.js": "^14.25.1"
   }
 }
