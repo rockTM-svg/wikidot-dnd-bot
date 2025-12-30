@@ -42,18 +42,45 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	};
 
 	// todo: check against 404s
-	const tempcontent = await fetch(url)
+	const parsedContent = await fetch(url)
 		.then((res) => res.text())
 		.then(text => parseHTML(text));
 
-	let content = '';
-	tempcontent.forEach((value: ParsedHTMLText) => {
-		content += value.content + '\n\n';
+	let tempcontent = '';
+	parsedContent.forEach((value: ParsedHTMLText) => {
+		tempcontent += value.content + '\n\n';
 	});
 
-	await interaction.editReply(
-		'-------\n' +
-		`\n**${option} - ${spellName}**\n\n` +
-		`${content}`,
-	);
+	if (tempcontent.length > 2000) {
+		let cycle = true;
+
+		while (cycle) {
+			const subEnd = tempcontent.lastIndexOf('\n', 2000);
+
+			if (tempcontent.length == parsedContent.length) {
+				await interaction.editReply(
+					'-------\n' +
+					`\n**${option} - ${spellName}**\n\n` +
+					`${tempcontent.substring(0, subEnd)}`,
+				);
+			}
+			else {
+				await interaction.followUp(tempcontent.substring(0, subEnd));
+			};
+
+			if (tempcontent.length <= 2000) {
+				cycle = false;
+			}
+			else {
+				tempcontent = tempcontent.substring(subEnd);
+			};
+		};
+	}
+	else {
+		await interaction.editReply(
+			'-------\n' +
+			`\n**${option} - ${spellName}**\n\n` +
+			`${parsedContent}`,
+		);
+	};
 };
