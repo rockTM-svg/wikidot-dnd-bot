@@ -11,6 +11,34 @@ import sites from "../../../sites.json" with { type: "json" };
 
 // ----------------------------------
 
+async function splitAndSendDiscordMessage(content: string, interaction: ChatInputCommandInteraction) {
+	let cycle = true;
+	const messages: string[] = [];
+
+	while (cycle) {
+		const subEnd = content.lastIndexOf('\n', 2000);
+		messages.push(content.substring(0, subEnd));
+
+		if (content.length <= 2000) {
+			cycle = false;
+		}
+		else {
+			content = content.substring(subEnd);
+		};
+	};
+
+	for (let i = 0; i < messages.length; i++) {
+		if (i === 0) {
+			interaction.deferred 
+			? await interaction.editReply(`-----------\n${messages[i]}`)
+			: await interaction.reply(`-----------\n${messages[i]}`);
+		}
+		else {
+			await interaction.followUp(messages[i]);
+		}
+	};
+};
+
 export const data = new SlashCommandBuilder()
 	.setName("spell")
 	.setDescription("Returns information about spell if it exists")
@@ -46,7 +74,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		case "dnd2024":
 			url = `${sites.dnd2024}/spell:${spellName}`;
 			break;
-	}
+	};
 
 	// ------------- Fetching info -------------
 
@@ -75,36 +103,11 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 	let tempcontent = '';
 	parsedContent.forEach((value: ParsedHTMLText) => {
-		tempcontent += value.content + '\n\n';
+		tempcontent += `${value.content}\n\n`;
 	});
 
 	if (tempcontent.length > 2000) {
-		let cycle = true;
-		let first = true;
-
-		while (cycle) {
-			const subEnd = tempcontent.lastIndexOf('\n', 2000);
-
-			if (first) {
-				await interaction.editReply(
-					'-------\n' +
-					`\n**${option} - ${spellName}**\n\n` +
-					`${tempcontent.substring(0, subEnd)}`,
-				);
-
-				first = false;
-			}
-			else {
-				await interaction.followUp(tempcontent.substring(0, subEnd));
-			};
-
-			if (tempcontent.length <= 2000) {
-				cycle = false;
-			}
-			else {
-				tempcontent = tempcontent.substring(subEnd);
-			};
-		};
+		await splitAndSendDiscordMessage(tempcontent, interaction);
 	}
 	else {
 		await interaction.editReply(
