@@ -1,29 +1,32 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
-// const { genericEmbed } = require('../../embeds/genericEmbed.js');
-import parseHTML from '../../utility/parseHTML.js';
-import ParsedHTMLText from '../../interface/parsedHTMLText.js';
+import {
+	SlashCommandBuilder,
+	type ChatInputCommandInteraction,
+} from "discord.js";
 
-import sites from '../../../sites.json' with {'type': 'json'};
+// const { genericEmbed } = require('../../embeds/genericEmbed.js');
+import parseHTML from "../../utility/parseHTML.js";
+import type ParsedHTMLText from "../../interface/parsedHTMLText.js";
+
+import sites from "../../../sites.json" with { type: "json" };
 
 // ----------------------------------
 
 export const data = new SlashCommandBuilder()
-	.setName('spell')
-	.setDescription('Returns information about spell if it exists')
+	.setName("spell")
+	.setDescription("Returns information about spell if it exists")
 	.addStringOption((option) =>
 		option
-			.setName('system')
-			.setDescription('System from where the spell is from')
+			.setName("system")
+			.setDescription("System from where the spell is from")
 			.setRequired(true)
 			.addChoices(
-				{ name: 'DND 5e', value: 'dnd5e' },
-				{ name: 'DND 5e (2024)', value: 'dnd5e2024' },
-			))
+				{ name: "DND 5e", value: "dnd5e" },
+				{ name: "DND 5e (2024)", value: "dnd5e2024" },
+			),
+	)
 	.addStringOption((option) =>
-		option
-			.setName('name')
-			.setDescription('Spell name')
-			.setRequired(true));
+		option.setName("name").setDescription("Spell name").setRequired(true),
+	);
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	await interaction.deferReply();
@@ -35,15 +38,15 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		.replaceAll(' ', '-')
 		.toLowerCase();
 
-	let url = '';
+	let url = "";
 	switch (option) {
-	case 'dnd5e':
-		url = `${sites.dnd5e}/spell:${spellName}`;
-		break;
-	case 'dnd2024':
-		url = `${sites.dnd2024}/spell:${spellName}`;
-		break;
-	};
+		case "dnd5e":
+			url = `${sites.dnd5e}/spell:${spellName}`;
+			break;
+		case "dnd2024":
+			url = `${sites.dnd2024}/spell:${spellName}`;
+			break;
+	}
 
 	// ------------- Fetching info -------------
 

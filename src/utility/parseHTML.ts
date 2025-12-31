@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
 
-import ParsedHTMLText from '../interface/parsedHTMLText.js';
+import type ParsedHTMLText from '../interface/parsedHTMLText.js';
 
 // --------------------------
 

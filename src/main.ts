@@ -1,15 +1,24 @@
-import path from 'node:path';
-import fs from 'node:fs';
-import { Client, Collection, Events, GatewayIntentBits, Interaction, MessageFlags } from 'discord.js';
+import path from "node:path";
+import fs from "node:fs";
+import dotenv from "dotenv";
 
-import DiscordChatCommand from './interface/discordCommand.js';
+import { fileURLToPath } from "node:url";
+import {
+	Client,
+	Collection,
+	Events,
+	GatewayIntentBits,
+	type Interaction,
+	MessageFlags,
+} from "discord.js";
 
-import { fileURLToPath } from 'url';
+import type DiscordChatCommand from "./interface/discordCommand.js";
+
+// -------------------------
+
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-import dotenv from 'dotenv';
-dotenv.config();
 
 // -------------------------
 
@@ -25,24 +34,27 @@ client.commands = new Collection<string, DiscordChatCommand>();
 
 // ------------------------
 
-const foldersPath = path.join(__dirname, '/commands');
+const foldersPath = path.join(__dirname, "/commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
+	const commandFiles = fs
+		.readdirSync(commandsPath)
+		.filter((file) => file.endsWith(".ts"));
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		try {
 			const command: DiscordChatCommand = await import(`${filePath}`);
 			client.commands.set(command.data.name, command);
+		} catch {
+			console.log(
+				`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
+			);
 		}
-		catch {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-		};
-	};
-};
+	}
+}
 
 // -------------------------
 
@@ -53,30 +65,28 @@ client.on(Events.InteractionCreate, async (interaction: Interaction) => {
 	if (!command) {
 		console.error(`No command matching ${interaction.commandName} was found`);
 		return;
-	};
+	}
 
 	try {
 		await command.execute(interaction);
-	}
-	catch (error) {
+	} catch (error) {
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({
-				content: 'There was an error while executing this command!',
+				content: "There was an error while executing this command!",
 				flags: MessageFlags.Ephemeral,
 			});
-		}
-		else {
+		} else {
 			await interaction.reply({
-				content: 'There was an error while executing this command!',
+				content: "There was an error while executing this command!",
 				flags: MessageFlags.Ephemeral,
 			});
 		}
-	};
+	}
 });
 
 // -------------------------
 
-process.on('unhandledRejection', (error) => {
-	console.error('Unhandled promise rejection:', error);
+process.on("unhandledRejection", (error) => {
+	console.error("Unhandled promise rejection:", error);
 });
