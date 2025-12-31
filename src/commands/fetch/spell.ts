@@ -28,8 +28,10 @@ export const data = new SlashCommandBuilder()
 export const execute = async (interaction: ChatInputCommandInteraction) => {
 	await interaction.deferReply();
 
-	const option = interaction.options.getString('system');
-	const spellName = interaction.options.getString('name');
+	const option: string = interaction.options.getString('system')!;
+	const spellName: string = interaction.options.getString('name')!
+		.replace(/[' ]/g, '-')
+		.toLowerCase();
 
 	let url = '';
 	switch (option) {
@@ -80,7 +82,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		await interaction.editReply(
 			'-------\n' +
 			`\n**${option} - ${spellName}**\n\n` +
-			`${parsedContent}`,
+			`${tempcontent}`,
 		);
 	};
 };
