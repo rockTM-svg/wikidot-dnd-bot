@@ -1,28 +1,26 @@
 {
-  "compilerOptions": {
-    "module": "nodenext",
-	"target": "esnext",
-	"lib": [ "ESNext" ],
-    "outDir": "./dist",
-    "removeComments": true, 
+	"compilerOptions": {
+		"module": "nodenext",
+		"target": "esnext",
+		"lib": ["ESNext"],
+		"outDir": "./dist",
+		"removeComments": true,
 
-    "baseUrl": "./src",
-    "esModuleInterop": true, 
-	"resolveJsonModule": true,
-    "moduleResolution": "nodenext",
-    "paths": {},
+		"baseUrl": "./src",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"moduleResolution": "nodenext",
+		"paths": {},
 
-    "sourceMap": true,
-    "sourceRoot": "/",
+		"sourceMap": true,
+		"sourceRoot": "/",
 
-    "alwaysStrict": true,
-    "allowUnreachableCode": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true,
-  },
-  "include": ["./src/**/*.ts"],
-  "exclude": [
-    "node_modules/**/*"
-  ]
+		"alwaysStrict": true,
+		"allowUnreachableCode": false,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"skipLibCheck": true
+	},
+	"include": ["./src/**/*.ts"],
+	"exclude": ["node_modules/**/*"]
 }
