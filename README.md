@@ -4,7 +4,7 @@ Language used: Javascript (soon to be Typescript)
 Libraries used:
 - Discord.js (Bot server + Discord API Handling)
 - Cheerio (web scraping)
-- ESLint (linting)
+- BiomeJS (linting + formatting)
 
 TODO:
 - Refactor code to Typescript (Done)
