@@ -77,16 +77,19 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 	if (tempcontent.length > 2000) {
 		let cycle = true;
+		let first = true;
 
 		while (cycle) {
 			const subEnd = tempcontent.lastIndexOf('\n', 2000);
 
-			if (tempcontent.length == parsedContent.length) {
+			if (first) {
 				await interaction.editReply(
 					'-------\n' +
 					`\n**${option} - ${spellName}**\n\n` +
 					`${tempcontent.substring(0, subEnd)}`,
 				);
+
+				first = false;
 			}
 			else {
 				await interaction.followUp(tempcontent.substring(0, subEnd));
