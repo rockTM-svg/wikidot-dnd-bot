@@ -29,8 +29,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	await interaction.deferReply();
 
 	const option: string = interaction.options.getString('system')!;
+	// TODO: figure out how to support Unearthed Arcana spells
 	const spellName: string = interaction.options.getString('name')!
-		.replace(/[' ]/g, '-')
+		.replaceAll('\'', '')
+		.replaceAll(' ', '-')
 		.toLowerCase();
 
 	let url = '';
@@ -43,10 +45,30 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		break;
 	};
 
-	// todo: check against 404s
+	// ------------- Fetching info -------------
+
 	const parsedContent = await fetch(url)
-		.then((res) => res.text())
-		.then(text => parseHTML(text));
+		.then((res) => {
+			if (res.ok) return res.text();
+			return Promise.reject(res);
+		})
+		.then(text => parseHTML(text))
+		.catch(async (res: Response) => {
+			switch (res.status) {
+			case 404:
+				await interaction.editReply('Error: spell page not found. Please try again.');
+				break;
+			default:
+				await interaction.editReply('Unknown error.');
+				break;
+			}
+
+			console.error(`${res.status} - ${res.statusText}`);
+		});
+
+	if (!parsedContent) return;
+
+	// ------------- Sending the info to the chat --------------
 
 	let tempcontent = '';
 	parsedContent.forEach((value: ParsedHTMLText) => {
