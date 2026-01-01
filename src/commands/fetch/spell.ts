@@ -55,8 +55,13 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	const reqTestResult: number = await checkPage(url);
 	switch (reqTestResult) {
 		case 404:
-			await interaction.editReply('Error: page not found. Please try again.');
-			return;
+			// test if it's in UA
+			if (await checkPage(`${url}-ua`) < 300) url += '-ua';
+			else {
+				await interaction.editReply('Error: page not found. Please try again.');
+				return;
+			};
+			break;
 		default:
 			if (reqTestResult > 400) { 
 				await interaction.editReply('Unknown error. Please try again.');
