@@ -4,7 +4,7 @@ import {
 } from "discord.js";
 
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
-import fetchHTML from "utility/fetchHTML.js";
+import { checkPage, fetchHTML } from "root/utility/requests.js";
 import type ParsedHTMLText from "interface/parsedHTMLText.js";
 
 import sendLargeMessage from "utility/sendLargeMessage.js";
@@ -52,14 +52,21 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 	// ------------- Fetching info -------------
 
-	let parsedContent: ParsedHTMLText[];
-	try {
-		parsedContent = await fetchHTML(url);
-	} 
-	catch (err) {
-		if (err.message === '404') await interaction.editReply('Error: page not found. Please try again.');
-		else await interaction.editReply('Unknown error. Please try again.');
+	const reqTestResult: number = await checkPage(url);
+	switch (reqTestResult) {
+		case 404:
+			await interaction.editReply('Error: page not found. Please try again.');
+			return;
+		default:
+			if (reqTestResult > 400) { 
+				await interaction.editReply('Unknown error. Please try again.');
+				return;
+			};
+	};
 
+	const parsedContent: ParsedHTMLText[] = await fetchHTML(url);
+	if (parsedContent.length === 0) {
+		await interaction.editReply('Error: Could not fetch data. Please try again.');
 		return;
 	};
 
