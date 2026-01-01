@@ -4,10 +4,10 @@ import {
 } from "discord.js";
 
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
-import parseHTML from "../../utility/parseHTML.js";
-import type ParsedHTMLText from "../../interface/parsedHTMLText.js";
+import fetchHTML from "utility/fetchHTML.js";
+import type ParsedHTMLText from "interface/parsedHTMLText.js";
 
-import { sendLargeMessage } from "utility/sendLargeMessage.js";
+import sendLargeMessage from "utility/sendLargeMessage.js";
 
 import sites from "../../../sites.json" with { type: "json" };
 
@@ -52,25 +52,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 	// ------------- Fetching info -------------
 
-	const parsedContent = await fetch(url)
-		.then((res) => {
-			if (res.ok) return res.text();
-			return Promise.reject(res);
-		})
-		.then(text => parseHTML(text))
-		.catch(async (res: Response) => {
-			switch (res.status) {
-			case 404:
-				await interaction.editReply('Error: spell page not found. Please try again.');
-				break;
-			default:
-				await interaction.editReply('Unknown error.');
-				break;
-			}
-
-			console.error(`${res.status} - ${res.statusText}`);
-		});
-
+	const parsedContent = await fetchHTML(url);
 	if (!parsedContent) return;
 
 	// ------------- Sending the info to the chat --------------

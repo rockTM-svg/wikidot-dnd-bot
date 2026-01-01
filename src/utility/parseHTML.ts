@@ -4,7 +4,7 @@ import type ParsedHTMLText from '../interface/parsedHTMLText.js';
 
 // --------------------------
 
-async function parseHTML(textHTML: string) {
+export default async function parseHTML(textHTML: string) {
 	const $ = cheerio.load(textHTML);
 	const result: ParsedHTMLText[] = [];
 
@@ -27,5 +27,3 @@ async function parseHTML(textHTML: string) {
 
 	return result;
 };
-
-export default parseHTML;

@@ -1,6 +1,6 @@
 import type { ChatInputCommandInteraction } from "discord.js";
 
-export async function sendLargeMessage(content: string, interaction: ChatInputCommandInteraction) {
+export default async function sendLargeMessage(content: string, interaction: ChatInputCommandInteraction) {
 	let cycle = true;
 	const messages: string[] = [];
 
