@@ -8,6 +8,7 @@ Libraries used:
 
 TODO:
 - Refactor code to Typescript (Done)
+- Edit parseHTML to allow for different selectors
 - Add unit testing with Jest
 - Add autocomplete for spell options
 
