@@ -10,10 +10,12 @@
 		"esModuleInterop": true,
 		"resolveJsonModule": true,
 		"moduleResolution": "nodenext",
-		"paths": {},
+		"paths": {
+			"root/*": ["./*"],
+		},
 
 		"sourceMap": true,
-		"sourceRoot": "/",
+		"sourceRoot": "/src",
 
 		"alwaysStrict": true,
 		"allowUnreachableCode": false,
