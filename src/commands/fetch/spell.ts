@@ -34,7 +34,6 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	await interaction.deferReply();
 
 	const option: string = interaction.options.getString("system")!;
-	// TODO: figure out how to support Unearthed Arcana spells
 	const spellName: string = interaction.options
 		.getString("name")!
 		.replaceAll(/[:']/g, "")
