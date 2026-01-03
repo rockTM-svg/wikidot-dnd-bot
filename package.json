@@ -8,7 +8,8 @@
 		"format": "biome format",
 		"command-up": "tsx deploy-commands.ts",
 		"dev": "tsx watch main.ts",
-		"build": "tsc"
+		"build": "tsc",
+		"docker-build": "docker build --secret id=BOT_TOKEN,src=./.env -t wikidot-dnd-bot ."
 	},
 	"author": "silicate-harvester",
 	"license": "MIT",
