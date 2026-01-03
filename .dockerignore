@@ -1,0 +1,11 @@
+node_modules
+dist
+
+.env
+.gitignore
+
+biome.json
+
+LICENSE
+README.md
+favicon.png
