@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:latest AS builder
 WORKDIR /bot
 
 COPY package*.json ./
@@ -11,5 +11,7 @@ FROM builder
 WORKDIR /bot
 
 COPY --from=builder /bot .
+RUN --mount=type=secret,id=BOT_TOKEN \
+    BOT_TOKEN=$(cat /run/secrets/BOT_TOKEN)
 
-CMD ["node", './dist/main.js']
+CMD ["node", "./dist/main.js"]
