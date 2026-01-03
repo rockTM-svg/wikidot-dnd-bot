@@ -12,7 +12,7 @@ import {
 	MessageFlags,
 } from "discord.js";
 
-import type DiscordChatCommand from "./src/interface/discordCommand.js";
+import type DiscordChatCommand from "root/interface/discordCommand.js";
 
 // -------------------------
 
@@ -34,7 +34,7 @@ client.commands = new Collection<string, DiscordChatCommand>();
 
 // ------------------------
 
-const foldersPath = path.join(__dirname, "/commands");
+const foldersPath = path.join(__dirname, "/src/commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {

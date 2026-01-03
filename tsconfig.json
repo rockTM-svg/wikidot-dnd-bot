@@ -25,6 +25,6 @@
 		"strictNullChecks": true,
 		"skipLibCheck": true
 	},
-	"include": ["./src/**/*.ts", "./main.ts"],
+	"include": ["./src/**/*.ts", "./main.ts", "./deploy-commands.ts"],
 	"exclude": ["node_modules/**/*"]
 }

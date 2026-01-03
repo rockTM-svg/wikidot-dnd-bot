@@ -4,13 +4,13 @@ import { REST, Routes } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-import type DiscordChatCommand from "./src/interface/discordCommand.js";
+import type DiscordChatCommand from "root/interface/discordCommand.js";
 
 // -------------------------
 
 const commands = [];
 
-const foldersPath = path.join(__dirname, "/commands");
+const foldersPath = path.join(__dirname, "/src/commands");
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
