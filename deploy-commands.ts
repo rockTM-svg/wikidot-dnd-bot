@@ -4,7 +4,7 @@ import { REST, Routes } from "discord.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-import type DiscordChatCommand from "interface/discordCommand.js";
+import type DiscordChatCommand from "./src/interface/discordCommand.js";
 
 // -------------------------
 

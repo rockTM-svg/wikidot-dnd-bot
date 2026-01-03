@@ -12,7 +12,7 @@ import {
 	MessageFlags,
 } from "discord.js";
 
-import type DiscordChatCommand from "./interface/discordCommand.js";
+import type DiscordChatCommand from "./src/interface/discordCommand.js";
 
 // -------------------------
 
@@ -22,7 +22,7 @@ const __dirname = path.dirname(__filename);
 
 // -------------------------
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once(Events.ClientReady, (readyClient) => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
