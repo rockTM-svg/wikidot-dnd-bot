@@ -1,6 +1,6 @@
 import path from "node:path";
 import fs from "node:fs";
-import dotenv from "dotenv";
+import dotenvx from "@dotenvx/dotenvx";
 
 import { fileURLToPath } from "node:url";
 import {
@@ -16,7 +16,7 @@ import type DiscordChatCommand from "root/interface/discordCommand.js";
 
 // -------------------------
 
-dotenv.config();
+dotenvx.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
