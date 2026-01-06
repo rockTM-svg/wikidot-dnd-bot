@@ -1,20 +1,22 @@
-FROM node:latest AS builder
+FROM node:25-alpine AS builder
 WORKDIR /bot
 
 COPY package*.json ./
 
-RUN npm install --omit=prod
+RUN npm install --include=dev
 COPY . .
 RUN npm run build
 
-FROM builder AS runner
+# take only .js files for running 
+FROM node:25-alpine AS bot
 WORKDIR /bot
 
-COPY --from=builder /bot/dist ./dist
-COPY --from=builder /bot/package.json ./package.json 
-
+COPY --from=builder /bot/package*.json ./
+COPY --from=builder /bot/dist/ ./dist
+COPY --from=builder /bot/.env ./
 RUN npm install --omit=dev
-RUN --mount=type=secret,id=BOT_TOKEN \
-    BOT_TOKEN=$(cat /run/secrets/BOT_TOKEN)
 
-CMD ["node", "./dist/main.js"]
+RUN apk add curl
+RUN curl -sfS https://dotenvx.sh/install.sh | sh
+
+CMD ["dotenvx", "run", "--","node", "./dist/main.js"]
