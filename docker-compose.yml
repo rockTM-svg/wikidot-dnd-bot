@@ -1,0 +1,9 @@
+services:
+    app:
+        command: dotenvx run -f /run/secrets/envfile -- node ./dist/main.js
+        build: .
+        secrets:
+            - envfile
+secrets:
+    envfile:
+        file: ./.env
