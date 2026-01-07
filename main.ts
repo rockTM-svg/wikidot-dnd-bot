@@ -48,10 +48,8 @@ for (const folder of commandFolders) {
 		try {
 			const command: DiscordChatCommand = await import(`${filePath}`);
 			client.commands.set(command.data.name, command);
-		} catch {
-			console.log(
-				`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`,
-			);
+		} catch (err) {
+			console.error(err);
 		}
 	}
 }
