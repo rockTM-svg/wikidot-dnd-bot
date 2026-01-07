@@ -7,7 +7,7 @@ import {
 import { checkPage, fetchHTML } from "root/utility/requests.js";
 import type ParsedHTMLText from "root/interface/parsedHTMLText.js";
 
-import sendLargeMessage from "utility/sendLargeMessage.js";
+import sendLargeMessage from "root/utility/sendLargeMessage.js";
 
 import sites from "root/sites.json" with { type: "json" };
 
