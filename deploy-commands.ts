@@ -1,16 +1,24 @@
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { REST, Routes } from "discord.js";
-import dotenv from "dotenv";
-dotenv.config();
+import dotenvx from "@dotenvx/dotenvx";
+dotenvx.config();
 
 import type DiscordChatCommand from "root/interface/discordCommand.js";
+
+// -------------------------
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // -------------------------
 
 const commands = [];
 
 const foldersPath = path.join(__dirname, "/src/commands");
+
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {

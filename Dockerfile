@@ -13,7 +13,6 @@ WORKDIR /bot
 
 COPY --from=builder /bot/package*.json ./
 COPY --from=builder /bot/dist/ ./dist
-COPY --from=builder /bot/.env ./
 RUN npm install --omit=dev
 
 RUN apk add curl
