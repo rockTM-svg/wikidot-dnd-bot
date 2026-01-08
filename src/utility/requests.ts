@@ -1,12 +1,12 @@
 import parseHTML from "./parseHTML.js";
 
-export async function fetchHTML(url: string) {
+export async function fetchHTML(url: string, selector: string) {
 	const parsedContent = await fetch(url)
 		.then((res) => {
 			if (res.ok) return res.text();
 			return Promise.reject(res);
 		})
-		.then((text) => parseHTML(text))
+		.then((text) => parseHTML(text, selector))
 		.catch((err: Error) => {
 			console.error(err.message);
 			return [];

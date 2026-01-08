@@ -4,14 +4,14 @@ import type ParsedHTMLText from "../interface/parsedHTMLText.js";
 
 // --------------------------
 
-export default async function parseHTML(textHTML: string) {
+export default async function parseHTML(textHTML: string, selector: string) {
 	const $ = cheerio.load(textHTML);
 	const result: ParsedHTMLText[] = [];
 
 	$.extract({
 		links: [
 			{
-				selector: "#page-content > *",
+				selector: `${selector}`,
 				value: (el) => {
 					const text = $(el).text().trim();
 					const tag = $(el).prop("tagName")!;

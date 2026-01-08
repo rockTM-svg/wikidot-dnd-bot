@@ -69,7 +69,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 			}
 	}
 
-	const parsedContent: ParsedHTMLText[] = await fetchHTML(url);
+	const parsedContent: ParsedHTMLText[] = await fetchHTML(url, "#page-content > *");
 	if (parsedContent.length === 0) {
 		await interaction.editReply(
 			"Error: Could not fetch data. Please try again.",
