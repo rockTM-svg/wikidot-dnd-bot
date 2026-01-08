@@ -13,7 +13,7 @@ import {
 	MessageFlags,
 } from "discord.js";
 
-import type DiscordChatCommand from "root/interface/discordCommand.js";
+import type DiscordChatCommand from "./src/interface/discordCommand.js";
 
 // -------------------------
 

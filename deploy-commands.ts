@@ -6,7 +6,7 @@ import { REST, Routes } from "discord.js";
 import dotenvx from "@dotenvx/dotenvx";
 dotenvx.config();
 
-import type DiscordChatCommand from "root/interface/discordCommand.js";
+import type DiscordChatCommand from "./src/interface/discordCommand.js";
 
 // -------------------------
 

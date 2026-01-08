@@ -4,12 +4,12 @@ import {
 } from "discord.js";
 
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
-import { checkPage, fetchHTML } from "root/utility/requests.js";
-import type ParsedHTMLText from "root/interface/parsedHTMLText.js";
+import { checkPage, fetchHTML } from "../../utility/requests.js";
+import type ParsedHTMLText from "../../interface/parsedHTMLText.js";
 
-import sendLargeMessage from "root/utility/sendLargeMessage.js";
+import sendLargeMessage from "../../utility/sendLargeMessage.js";
 
-import sites from "root/sites.json" with { type: "json" };
+import sites from "../../sites.json" with { type: "json" };
 
 // ---------------------------------
 
