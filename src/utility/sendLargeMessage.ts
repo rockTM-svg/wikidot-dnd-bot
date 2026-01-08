@@ -8,7 +8,8 @@ export default async function sendLargeMessage(
 	const messages: string[] = [];
 
 	while (cycle) {
-		const subEnd = content.lastIndexOf("\n", 2000);
+		const subEnd = content.lastIndexOf("\n", 1600);
+		console.log(content.substring(0, subEnd));
 		messages.push(content.substring(0, subEnd));
 
 		if (content.length <= 2000) {
@@ -21,7 +22,7 @@ export default async function sendLargeMessage(
 	try {
 		for (let i = 0; i < messages.length; i++) {
 			if (i === 0) {
-				interaction.deferred
+				interaction.deferred || interaction.replied
 					? await interaction.editReply(`-----------\n${messages[i]}`)
 					: await interaction.reply(`-----------\n${messages[i]}`);
 			} else {
