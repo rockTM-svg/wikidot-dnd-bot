@@ -1,25 +1,19 @@
-import {
-	SlashCommandBuilder,
-	type ChatInputCommandInteraction,
-} from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
 import { checkPage, fetchHTML } from "../../utility/requests.js";
-import type ParsedHTMLText from "../../interface/parsedHTMLText.js";
-
 import sendLargeMessage from "../../utility/sendLargeMessage.js";
-
 import sites from "../../sites.json" with { type: "json" };
 
 // ---------------------------------
 
 export const data = new SlashCommandBuilder()
-	.setName("spell")
-	.setDescription("Returns information about spell if it exists")
+	.setName("lineage")
+	.setDescription("Returns information about lineage if it exists")
 	.addStringOption((option) =>
 		option
 			.setName("system")
-			.setDescription("System from where the spell is from")
+			.setDescription("System from where the lineage is from")
 			.setRequired(true)
 			.addChoices(
 				{ name: "DND 5e", value: "dnd5e" },
@@ -27,15 +21,15 @@ export const data = new SlashCommandBuilder()
 			),
 	)
 	.addStringOption((option) =>
-		option.setName("name").setDescription("Spell name").setRequired(true),
+		option.setName("name").setDescription("Lineage/race name").setRequired(true),
 	);
 
-export const execute = async (interaction: ChatInputCommandInteraction) => {
+export const execute = async (interaction) => {
 	await interaction.deferReply();
 
-	const option: string = interaction.options.getString("system")!;
-	const spellName: string = interaction.options
-		.getString("name")!
+	const option = interaction.options.getString("system"); //non-null here
+	const spellName = interaction.options
+		.getString("name") //non-null here
 		.replaceAll(/[:']/g, "")
 		.replaceAll(" ", "-")
 		.toLowerCase();
@@ -43,16 +37,16 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	let url = "";
 	switch (option) {
 		case "dnd5e":
-			url = `${sites.dnd5e}/spell:${spellName}`;
+			url = `${sites.dnd5e}/lineage:${spellName}`;
 			break;
 		case "dnd2024":
-			url = `${sites.dnd2024}/spell:${spellName}`;
+			url = `${sites.dnd2024}/lineage:${spellName}`;
 			break;
 	}
 
 	// ------------- Fetching info -------------
 
-	const reqTestResult: number = await checkPage(url);
+	const reqTestResult = await checkPage(url);
 	switch (reqTestResult) {
 		case 404:
 			// test if it's in UA
@@ -69,7 +63,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 			}
 	}
 
-	const parsedContent: ParsedHTMLText[] = await fetchHTML(url, "#page-content > *");
+	const parsedContent = await fetchHTML(url, "#page-content > *");
 	if (parsedContent.length === 0) {
 		await interaction.editReply(
 			"Error: Could not fetch data. Please try again.",
@@ -80,7 +74,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	// ------------- Sending the info to the chat --------------
 
 	let tempcontent = "";
-	parsedContent.forEach((value: ParsedHTMLText) => {
+	parsedContent.forEach((value) => {
 		tempcontent += `${value.content}\n\n`;
 	});
 

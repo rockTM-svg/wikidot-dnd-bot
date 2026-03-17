@@ -1,12 +1,7 @@
-import {
-	SlashCommandBuilder,
-	type ChatInputCommandInteraction,
-} from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 
 // const { genericEmbed } = require('../../embeds/genericEmbed.js');
 import { checkPage, fetchHTML } from "../../utility/requests.js";
-import type ParsedHTMLText from "../../interface/parsedHTMLText.js";
-
 import sendLargeMessage from "../../utility/sendLargeMessage.js";
 
 import sites from "../../sites.json" with { type: "json" };
@@ -14,12 +9,12 @@ import sites from "../../sites.json" with { type: "json" };
 // ---------------------------------
 
 export const data = new SlashCommandBuilder()
-	.setName("lineage")
-	.setDescription("Returns information about lineage if it exists")
+	.setName("spell")
+	.setDescription("Returns information about spell if it exists")
 	.addStringOption((option) =>
 		option
 			.setName("system")
-			.setDescription("System from where the lineage is from")
+			.setDescription("System from where the spell is from")
 			.setRequired(true)
 			.addChoices(
 				{ name: "DND 5e", value: "dnd5e" },
@@ -27,7 +22,7 @@ export const data = new SlashCommandBuilder()
 			),
 	)
 	.addStringOption((option) =>
-		option.setName("name").setDescription("Lineage/race name").setRequired(true),
+		option.setName("name").setDescription("Spell name").setRequired(true),
 	);
 
 export const execute = async (interaction: ChatInputCommandInteraction) => {
@@ -43,10 +38,10 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	let url = "";
 	switch (option) {
 		case "dnd5e":
-			url = `${sites.dnd5e}/lineage:${spellName}`;
+			url = `${sites.dnd5e}/spell:${spellName}`;
 			break;
 		case "dnd2024":
-			url = `${sites.dnd2024}/lineage:${spellName}`;
+			url = `${sites.dnd2024}/spell:${spellName}`;
 			break;
 	}
 
@@ -94,3 +89,8 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 		);
 	}
 };
+
+//TODO - add autocomplete
+//> fetch all h1s for books / h2 for subraces
+//> pagination w/ multiple pages instead of full discord text
+//>
