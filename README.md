@@ -1,6 +1,6 @@
 DnD Discord Bot that fetches information from the wiki and writes it in chat (W.I.P.)
 
-Language used: Javascript (soon to be Typescript)
+Language used: Nodejs
 Libraries used:
 - Discord.js (Bot server + Discord API Handling)
 - Cheerio (web scraping)
@@ -8,9 +8,9 @@ Libraries used:
 
 TODO:
 - Refactor code to Typescript (Done)
+- Refactor it back to Nodejs (Done)
 - Edit parseHTML to allow for different selectors (Done)
 - Change message splitting logic from sending multiple messages to using an embed with multiple pages
-- Add unit testing with Jest
 - Add autocomplete for spell options
 
 Long term plan:
