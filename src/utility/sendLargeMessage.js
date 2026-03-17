@@ -4,7 +4,6 @@ export default async function sendLargeMessage( content, interaction) {
 
 	while (cycle) {
 		const subEnd = content.lastIndexOf("\n", 1600);
-		console.log(content.substring(0, subEnd));
 		messages.push(content.substring(0, subEnd));
 
 		if (content.length <= 2000) {
