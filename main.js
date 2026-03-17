@@ -9,11 +9,8 @@ import {
 	Collection,
 	Events,
 	GatewayIntentBits,
-	type Interaction,
 	MessageFlags,
 } from "discord.js";
-
-import type DiscordChatCommand from "./src/interface/discordCommand.js";
 
 // -------------------------
 
@@ -22,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 // -------------------------
 
-const client: Client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.once(Events.ClientReady, (readyClient) => {
 	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
@@ -30,7 +27,7 @@ client.once(Events.ClientReady, (readyClient) => {
 
 client.login(process.env.BOT_TOKEN);
 
-client.commands = new Collection<string, DiscordChatCommand>();
+client.commands = new Collection();
 
 // ------------------------
 
@@ -46,7 +43,7 @@ for (const folder of commandFolders) {
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		try {
-			const command: DiscordChatCommand = await import(`${filePath}`);
+			const command = await import(`${filePath}`);
 			client.commands.set(command.data.name, command);
 		} catch (err) {
 			console.error(err);
@@ -56,7 +53,7 @@ for (const folder of commandFolders) {
 
 // -------------------------
 
-client.on(Events.InteractionCreate, async (interaction: Interaction) => {
+client.on(Events.InteractionCreate, async (interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 	const command = interaction.client.commands.get(interaction.commandName);
 

@@ -5,9 +5,6 @@ import { fileURLToPath } from "node:url";
 import { REST, Routes } from "discord.js";
 import dotenvx from "@dotenvx/dotenvx";
 dotenvx.config();
-
-import type DiscordChatCommand from "./src/interface/discordCommand.js";
-
 // -------------------------
 
 const __filename = fileURLToPath(import.meta.url);
@@ -29,7 +26,7 @@ for (const folder of commandFolders) {
 
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
-		const command: DiscordChatCommand = await import(filePath);
+		const command = await import(filePath);
 
 		try {
 			commands.push(command.data.toJSON());
@@ -43,14 +40,14 @@ for (const folder of commandFolders) {
 
 // -------------------------
 
-const rest = new REST().setToken(process.env.BOT_TOKEN!);
+const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 (async () => {
 	try {
 		console.log(
 			`Started refreshing ${commands.length} application (/) commands.`,
 		);
-		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID!), {
+		await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {
 			body: commands,
 		});
 
