@@ -25,12 +25,12 @@ export const data = new SlashCommandBuilder()
 		option.setName("name").setDescription("Spell name").setRequired(true),
 	);
 
-export const execute = async (interaction: ChatInputCommandInteraction) => {
+export const execute = async (interaction) => {
 	await interaction.deferReply();
 
-	const option: string = interaction.options.getString("system")!;
-	const spellName: string = interaction.options
-		.getString("name")!
+	const option = interaction.options.getString("system");
+	const spellName = interaction.options
+		.getString("name") //non-null here
 		.replaceAll(/[:']/g, "")
 		.replaceAll(" ", "-")
 		.toLowerCase();
@@ -47,7 +47,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 
 	// ------------- Fetching info -------------
 
-	const reqTestResult: number = await checkPage(url);
+	const reqTestResult = await checkPage(url);
 	switch (reqTestResult) {
 		case 404:
 			// test if it's in UA
@@ -64,7 +64,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 			}
 	}
 
-	const parsedContent: ParsedHTMLText[] = await fetchHTML(url, "#page-content > *");
+	const parsedContent = await fetchHTML(url, "#page-content > *");
 	if (parsedContent.length === 0) {
 		await interaction.editReply(
 			"Error: Could not fetch data. Please try again.",
@@ -75,7 +75,7 @@ export const execute = async (interaction: ChatInputCommandInteraction) => {
 	// ------------- Sending the info to the chat --------------
 
 	let tempcontent = "";
-	parsedContent.forEach((value: ParsedHTMLText) => {
+	parsedContent.forEach((value) => {
 		tempcontent += `${value.content}\n\n`;
 	});
 
